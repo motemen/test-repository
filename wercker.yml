@@ -1,0 +1,6 @@
+box: wercker/default
+
+deploy:
+  steps:
+    - motemen/github-create-release@1.0.2:
+        token: $GITHUB_TOKEN
