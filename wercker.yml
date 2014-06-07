@@ -4,6 +4,6 @@ deploy:
   steps:
     - motemen/github-create-release@1.0.3:
         token: $GITHUB_TOKEN
-    - wercker/github-upload-asset@1.0.1
+    - wercker/github-upload-asset@1.0.1:
         token: $GITHUB_TOKEN
         file: a.txt
