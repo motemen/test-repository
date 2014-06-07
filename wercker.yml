@@ -1,4 +1,21 @@
-box: wercker/default
+box: wercker/golang
+
+build:
+  steps:
+    - script:
+        name: get gox
+        code: |
+          go get github.com/mitchellh/gox
+
+    - script:
+        name: setup gox
+        code: |
+           gox -build-toolchain
+
+    - script:
+        name: cross compile
+        code: |
+          gox -os="linux dawrin windows" -arch="386 amd64" -output="build/{{.Dir}}.{{.OS}}_{{.Arch}}"
 
 deploy:
   steps:
