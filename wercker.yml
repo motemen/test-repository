@@ -8,3 +8,6 @@ deploy:
     - wercker/github-upload-asset@1.0.1:
         token: $GITHUB_TOKEN
         file: a.txt
+    - wercker/github-upload-asset@1.0.1:
+        token: $GITHUB_TOKEN
+        file: foo/b.txt
