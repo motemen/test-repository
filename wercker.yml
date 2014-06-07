@@ -2,8 +2,9 @@ box: wercker/default
 
 deploy:
   steps:
-    - motemen/github-create-release@1.0.3:
+    - motemen/github-create-release@1.0.4:
         token: $GITHUB_TOKEN
+        tag_pattern: v*
     - wercker/github-upload-asset@1.0.1:
         token: $GITHUB_TOKEN
         file: a.txt
