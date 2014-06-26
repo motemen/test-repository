@@ -3,11 +3,6 @@ box: wercker/golang
 build:
   steps:
     - script:
-        name: versions
-        code: |
-          git version
-          go version
-    - script:
         name: run tests
         code: |
           sleep 10
