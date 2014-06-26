@@ -5,5 +5,5 @@ build:
     - script:
         name: run tests
         code: |
-          sleep 10
+          sleep 5
           go test
