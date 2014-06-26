@@ -10,4 +10,5 @@ build:
     - script:
         name: run tests
         code: |
+          sleep 10
           go test
