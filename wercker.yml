@@ -3,28 +3,11 @@ box: wercker/golang
 build:
   steps:
     - script:
-        name: get gox
+        name: versions
         code: |
-          go get github.com/mitchellh/gox
-
+          git version
+          go version
     - script:
-        name: setup gox
+        name: run tests
         code: |
-           gox -build-toolchain
-
-    - script:
-        name: cross compile
-        code: |
-          gox -os="linux dawrin windows" -arch="386 amd64" -output="build/{{.Dir}}.{{.OS}}_{{.Arch}}"
-
-deploy:
-  steps:
-    - motemen/github-create-release@1.0.4:
-        token: $GITHUB_TOKEN
-        tag_pattern: v*
-    - wercker/github-upload-asset@1.0.1:
-        token: $GITHUB_TOKEN
-        file: a.txt
-    - wercker/github-upload-asset@1.0.1:
-        token: $GITHUB_TOKEN
-        file: foo/b.txt
+          go test
