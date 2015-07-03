@@ -20,7 +20,4 @@ deploy:
     - script:
         name: commit and push
         code: |
-          if ! git diff --quiet; then
-            git commit -a -m 'bump version'
-            git push https://$GITHUB_TOKEN@github.com/motemen/test-repository master
-          fi
+          ! git diff --quiet || ( git commit -a -m 'bump version' && git push https://$GITHUB_TOKEN@github.com/motemen/test-repository master )
