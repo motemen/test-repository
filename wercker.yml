@@ -16,7 +16,7 @@ deploy:
     - script:
         name: bump version
         code: |
-          gobump -p -w
+          gobump -patch -w
     - script:
         name: commit and push
         code: |
