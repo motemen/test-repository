@@ -6,3 +6,21 @@ build:
         name: run tests
         code: |
           go test
+
+deploy:
+  steps:
+    - script:
+        name: install gobump
+        code: |
+          go get github.com/motemen/gobump/cmd/gobump
+    - script:
+        name: bump version
+        code: |
+          gobump -p -w
+    - script:
+        name: commit and push
+        code: |
+          if ! git diff --quiet; then
+            git commit -a -m 'bump version'
+            git push https://$GITHUB_TOKEN@github.com/motemen/test-repository master
+          fi
