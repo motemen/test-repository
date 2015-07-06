@@ -10,19 +10,35 @@ build:
 deploy:
   steps:
     - script:
-        name: install gobump
+        name: install tools
         code: |
           go get github.com/motemen/gobump/cmd/gobump
+          curl http://stedolan.github.io/jq/download/linux64/jq -o /usr/local/bin/jq
     - script:
-        name: bump version
+        name: show environments
         code: |
-          gobump -patch -w
+          env
+          git config --list
     - script:
         name: setup user
         code: |
-          git config --global user.email "pleasemailus@wercker.com"
-          git config --global user.name "werckerbot"
+          git config --global user.email 'pleasemailus@wercker.com'
+          git config --global user.name  'werckerbot'
     - script:
-        name: commit and push
+        name: bump version
         code: |
-          ! git diff --quiet || ( git commit -a -m 'bump version' && git push https://$GITHUB_TOKEN@github.com/motemen/test-repository HEAD:master )
+          set -x
+
+          pr_number=$(git show --pretty=%s | sed -n 's/^Merge pull request #\([0-9]\{1,\}\) .*/\1/p')
+          if [ -n "$pr_number" ]; then \
+            labels=$(curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/motemen/gore/issues/$pr_numbeer/labels | jq -r 'map(.name) | join("\n")')
+            flag='-patch'
+            if [ -n "$(echo $labels | grep -e '^feature$')" ]; then \
+              flag='-minor'
+            elif [ -n "$(echo $labels | grep -e '^major update$')" ]; then \
+              flag='-major'
+            fi
+            new_version=$(gobump $flag -w -v | jq -r .version)
+
+            git diff --exit-code || ( git commit -a -m "bump version to $new_version" && git push https://$GITHUB_TOKEN@github.com/motemen/test-repository HEAD:master )
+          fi
