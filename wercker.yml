@@ -38,17 +38,17 @@ deploy:
     - script:
         name: bump version
         code: |
-          set -x
-
           pr_number=$(git show --pretty=%s | sed -n 's/^Merge pull request #\([0-9]\{1,\}\) .*/\1/p')
           if [ -n "$pr_number" ]; then
             labels=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/motemen/gore/issues/$pr_numbeer/labels | ./jq -r 'map(.name) | join("\n")')
+
             flag='-patch'
-            if [ -n "$(echo $labels | grep -e '^feature$')" ]; then
-              flag='-minor'
-            elif [ -n "$(echo $labels | grep -e '^major update$')" ]; then
+            if [ -n "$(echo $labels | grep -i -E '^breaking$')" ]; then
               flag='-major'
+            elif [ -n "$(echo $labels | grep -i -E '^feature$')" ]; then
+              flag='-minor'
             fi
+
             new_version=$(gobump $flag -w -v | ./jq -r '.[]')
 
             git diff --exit-code || ( git commit -a -m "bump version to $new_version" && git push https://$GITHUB_TOKEN@github.com/motemen/test-repository HEAD:master )
