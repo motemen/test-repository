@@ -40,7 +40,7 @@ deploy:
         code: |
           pr_number=$(git show --pretty=%s | sed -n 's/^Merge pull request #\([0-9]\{1,\}\) .*/\1/p')
           if [ -n "$pr_number" ]; then
-            labels=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/motemen/gore/issues/$pr_numbeer/labels | ./jq -r 'map(.name) | join("\n")')
+            labels=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/$WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY/issues/$pr_numbeer/labels | ./jq -r 'map(.name) | join("\n")')
 
             flag='-patch'
             if [ -n "$(echo $labels | grep -i -E '^breaking$')" ]; then
@@ -51,5 +51,5 @@ deploy:
 
             new_version=$(gobump $flag -w -v | ./jq -r '.[]')
 
-            git diff --exit-code || ( git commit -a -m "bump version to $new_version" && git push https://$GITHUB_TOKEN@github.com/motemen/test-repository HEAD:master )
+            git diff --exit-code || ( git commit -a -m "bump version to $new_version" && git push https://$GITHUB_TOKEN@github.com/$WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY HEAD:master )
           fi
