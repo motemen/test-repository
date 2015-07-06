@@ -41,7 +41,7 @@ deploy:
           set -x
 
           pr_number=$(git show --pretty=%s | sed -n 's/^Merge pull request #\([0-9]\{1,\}\) .*/\1/p')
-          if [ -z "$pr_number" ]; then
+          if [ -n "$pr_number" ]; then
             labels=$(curl -s -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/motemen/gore/issues/$pr_numbeer/labels | ./jq -r 'map(.name) | join("\n")')
             flag='-patch'
             if [ -n "$(echo $labels | grep -e '^feature$')" ]; then
