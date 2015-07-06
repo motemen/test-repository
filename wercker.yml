@@ -2,7 +2,6 @@ box: golang
 build:
   steps:
     - setup-go-workspace:
-        package-dir: github.com/motemen/test-repository
 
     - script:
         name: go get
