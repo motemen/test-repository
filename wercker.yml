@@ -19,5 +19,5 @@ build:
           go test ./...
 deploy:
   steps:
-    - motemen/gobump-github-pull-request:
+    - motemen/gobump-github-pull-request@1.0.1:
         github_token: $GITHUB_TOKEN
