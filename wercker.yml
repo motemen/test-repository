@@ -3,11 +3,6 @@ build:
   steps:
     - setup-go-workspace
     - script:
-        name: install zip
-        code: |
-          apt-get update
-          apt-get install -y zip
-    - script:
         name: go get
         code: |
           go get -t ./...
@@ -17,6 +12,11 @@ build:
           go test -v ./...
 deploy:
   steps:
+    - script:
+        name: install zip
+        code: |
+          apt-get update
+          apt-get install -y zip
     - motemen/gobump-github-pull-request:
         github_token: $GITHUB_TOKEN
         label_pattern_minor: ^feature$
@@ -24,12 +24,10 @@ deploy:
         name: tag version
         code: |
           if [[ "$(git log -1 --pretty='%an %s')" == werckerbot\ bump\ * ]]; then
-            tag="v$(gobump show | jq -r '.[]')"
-            git tag "$tag"
-            git push --tags https://$GITHUB_TOKEN@github.com/$WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
-            export RELEASE_TAG="$tag"
+            export RELEASE_TAG="v$(gobump show | jq -r '.[]')"
           fi
-    - tcnksm/gox
+    - tcnksm/gox:
+        os: darwin linux windows
     - tcnksm/zip:
         input: $WERCKER_OUTPUT_DIR/pkg
         output: $WERCKER_OUTPUT_DIR/dist
