@@ -21,9 +21,14 @@ deploy:
         github_token: $GITHUB_TOKEN
         label_pattern_minor: ^feature$
     - script:
-        name: export tag
+        name: tag version
         code: |
-          export RELEASE_TAG=$(git describe --tags --exact || true)
+          if [[ "$(git log -1 --pretty='%an %s')" == werckerbot\ bump\ * ]]; then
+            tag="v$(gobump show | jq -r '.[]')"
+            git tag "$tag"
+            git push --tags https://$GITHUB_TOKEN@github.com/$WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
+            export RELEASE_TAG="$tag"
+          fi
     - tcnksm/ghr:
         token: $GITHUB_TOKEN
         input: dist
