@@ -5,6 +5,7 @@ build:
     - script:
         name: install zip
         code: |
+          apt-get update
           apt-get install -y zip
     - script:
         name: go get
@@ -19,7 +20,12 @@ deploy:
     - motemen/gobump-github-pull-request:
         github_token: $GITHUB_TOKEN
         label_pattern_minor: ^feature$
+    - script:
+        name: export tag
+        code: |
+          export RELEASE_TAG=$(git describe --tags --exact || true)
     - tcnksm/ghr:
         token: $GITHUB_TOKEN
         input: dist
         replace: true
+        version: $RELEASE_TAG
