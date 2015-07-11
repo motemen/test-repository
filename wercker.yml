@@ -21,13 +21,16 @@ deploy:
     - motemen/gobump-github-pull-request@1.1.3:
         github_token: $GITHUB_TOKEN
         label_pattern_minor: ^feature$
-    - tcnksm/gox:
+    - wercker/gox:
         os: darwin linux windows
+        arch: 386 amd64
+        output: '{{.Dir}}_{{.OS}}_{{.Arch}}/{{.Dir}}'
+        dest: $WERCKER_OUTPUT_DIR/pkg
     - tcnksm/zip:
         input: $WERCKER_OUTPUT_DIR/pkg
         output: $WERCKER_OUTPUT_DIR/dist
     - script:
-        name: create release tag
+        name: set release tag
         code: |
           if [ -n "$GOBUMP_NEW_VERSION" ]; then
             export RELEASE_TAG="v$GOBUMP_NEW_VERSION"
