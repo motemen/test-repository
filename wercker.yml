@@ -3,6 +3,10 @@ build:
   steps:
     - setup-go-workspace
     - script:
+        name: install zip
+        code: |
+          apt-get install -y zip
+    - script:
         name: go get
         code: |
           go get -t ./...
