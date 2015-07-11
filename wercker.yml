@@ -11,10 +11,10 @@ build:
         name: go get
         code: |
           go get -t ./...
-    - tcnksm/gox
-    - tcnksm/zip:
-        input: $WERCKER_OUTPUT_DIR/pkg
-        output: $WERCKER_OUTPUT_DIR/dist
+    - script:
+        name: go test
+        code: |
+          go test -v ./...
 deploy:
   steps:
     - motemen/gobump-github-pull-request:
@@ -29,6 +29,10 @@ deploy:
             git push --tags https://$GITHUB_TOKEN@github.com/$WERCKER_GIT_OWNER/$WERCKER_GIT_REPOSITORY
             export RELEASE_TAG="$tag"
           fi
+    - tcnksm/gox
+    - tcnksm/zip:
+        input: $WERCKER_OUTPUT_DIR/pkg
+        output: $WERCKER_OUTPUT_DIR/dist
     - tcnksm/ghr:
         token: $GITHUB_TOKEN
         input: dist
