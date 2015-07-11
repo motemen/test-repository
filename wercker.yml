@@ -26,7 +26,15 @@ deploy:
         arch: 386 amd64
         output: '{{.Dir}}_{{.OS}}_{{.Arch}}/{{.Dir}}'
         dest: $WERCKER_OUTPUT_DIR/pkg
-    - tcnksm/zip:
+    - script:
+        name: include assets in the artifacts
+        code: |
+          for dir in $WERCKER_OUTPUT_DIR/pkg/*; do
+            if [ -d "$dir" ]; then
+              cp -R -v README.md foo/ "$dir"
+            fi
+          done
+    - motemen/zip:
         input: $WERCKER_OUTPUT_DIR/pkg
         output: $WERCKER_OUTPUT_DIR/dist
     - script:
