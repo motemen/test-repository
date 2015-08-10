@@ -5,7 +5,7 @@ import (
 	"runtime"
 )
 
-const version = "0.2.6"
+const version = "0.2.7"
 
 func main() {
 	fmt.Printf("Hello, %s/%s! (%s)\n", runtime.GOOS, runtime.GOARCH, version)
