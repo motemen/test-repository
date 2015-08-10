@@ -7,6 +7,7 @@ before_install:
   - env
 script:
   - go test -v ./...
+  - mkdir -p dist
   - touch dist/artifact.txt
 after_success:
   - ./scripts/bump-version.sh
