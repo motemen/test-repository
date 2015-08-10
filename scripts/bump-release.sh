@@ -8,8 +8,8 @@ if [ -n "$pr_number" ]; then
   new_version=$(gobump patch -w -v | jq -r '.[]')
 
   if ! git diff --exit-code ./*.go; then
-    git config --global user.email 'motemen@gmail.com'
-    git config --global user.name  'gobump-bot'
+    git config --global user.email 'motemen+gobump-bot@gmail.com'
+    git config --global user.name  'motemen'
 
     git add ./*.go
     git commit -m "bump version to $new_version"
