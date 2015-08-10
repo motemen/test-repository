@@ -3,6 +3,11 @@ go:
   - 1.4
 before_install:
   - go get github.com/motemen/gobump/cmd/gobump
+  - go get github.com/tcnksm/ghr
   - env
+script:
+  - go test -v ./...
+  - mkdir -p dist
+  - touch dist/artifact.txt
 after_success:
   - ./scripts/bump-version.sh
