@@ -15,6 +15,6 @@ if [ -n "$pr_number" ]; then
     git commit -m "bump version to $new_version"
     git push "https://$GITHUB_TOKEN@github.com/motemen/test-repository" HEAD:master >/dev/null 2>&1
 
-    ghr "v$new_version" --token $GITHUB_TOKEN --replace --draft dist/
+    ghr --token "$GITHUB_TOKEN" --replace --draft "v$new_version" dist/
   fi
 fi
