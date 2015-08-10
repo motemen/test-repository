@@ -10,4 +10,4 @@ script:
   - mkdir -p dist
   - touch dist/artifact.txt
 after_success:
-  - ./scripts/bump-version.sh
+  - ./scripts/bump-release.sh
