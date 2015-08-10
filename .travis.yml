@@ -6,5 +6,4 @@ before_install:
   - go get github.com/motemen/gobump/cmd/gobump
   - env
 after_success:
-  - gobump -patch -w
-  - git diff
+  - ./scripts/bump-version.sh
