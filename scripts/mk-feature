@@ -1,0 +1,13 @@
+#!/bin/bash
+
+feature="$(date +%Y%m%d)-$(echo $RANDOM | base64)"
+feature="${feature%=*}"
+echo $feature
+
+git checkout staging
+git checkout -b "feature-$feature"
+
+n=$(( RANDOM % 3 ))
+for n in $(seq 1 $n); do
+    git commit --allow-empty -m "Commit in feature $feature"
+done
