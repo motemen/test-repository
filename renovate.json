@@ -3,5 +3,8 @@
     "config:base",
     "docker:enableMajor"
   ],
-  "masterIssue": true
+  "masterIssue": true,
+  "docker": {
+    "pinDigests": true
+  }
 }
