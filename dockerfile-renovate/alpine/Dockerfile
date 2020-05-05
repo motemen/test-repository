@@ -1,4 +1,4 @@
-FROM google/cloud-sdk:287.0.0-alpine
+FROM google/cloud-sdk:287.0.0-alpine@sha256:9cbf1749c0ef2a1335fb10ba83bb9567af3388aecb323d0a5f7a8bd912b825fb
 
 # use with -e CLOUDSDK_CORE_PROJECT=...,
 
