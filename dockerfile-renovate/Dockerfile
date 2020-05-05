@@ -1,4 +1,4 @@
-FROM google/cloud-sdk:287.0.0
+FROM google/cloud-sdk:287.0.0@sha256:007ad7eb0489222bb5084c1bedb22da660e59afa4f0a9377c617624c565f3aaa
 
 # use with -e CLOUDSDK_CORE_PROJECT=...,
 
